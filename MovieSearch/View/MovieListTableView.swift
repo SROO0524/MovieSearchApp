@@ -30,6 +30,5 @@ class MovieListTableView: UITableView {
         separatorInset.left = 0
         estimatedRowHeight = UITableView.automaticDimension
         rowHeight = UITableView.automaticDimension
-//        rowHeight = 100
     }
 }
