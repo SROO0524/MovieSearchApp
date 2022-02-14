@@ -14,7 +14,7 @@ class MovieDetailViewController: UIViewController {
 
     //MARK: Properties
     let movieInfoHeaderView = MoviewDetailTopView()
-    let moviewWebView = MoviewWebView()
+    let moviewWebView = MovieWebView()
     
     //MARK: LifeCycle
     override func viewDidLoad() {

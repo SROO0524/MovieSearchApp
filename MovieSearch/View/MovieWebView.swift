@@ -10,7 +10,7 @@ import WebKit
 /*
  영화 정보 웹뷰
  */
-class MoviewWebView: UIView {
+class MovieWebView: UIView {
 
     //MARK: Properties
     var webView = WKWebView()

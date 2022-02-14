@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 /*
  TablaView CustomCell
  */
@@ -50,6 +51,8 @@ class MovieListTableViewCell: UITableViewCell {
             make.height.width.equalTo(16)
         }
         
+        favoriteButton.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
+        
         addSubview(movieTitle)
         movieTitle.text = "언차티드"
         movieTitle.textColor = .black
@@ -87,6 +90,18 @@ class MovieListTableViewCell: UITableViewCell {
             make.trailing.equalTo(self.snp.trailing)
             make.bottom.equalTo(movieImage.snp.bottom)
         }
+    }
+    
+    //MARK: Cell 데이터 바인딩
+    func bindingCellData(movieModel: MovieSearchModel.Items) {
+        let url = URL(string: movieModel.image ?? "")
+        movieImage.kf.setImage(with: url)
         
+        movieTitle.text = movieModel.title
+        movieTitle.text = CommonFunc.formateStringData(string: movieModel.title ?? "")
+//        favoriteButton
+        directorLabel.text = "감독: \(movieModel.director ?? "")"
+        actorLabel.text = "출연: \(movieModel.actor ?? "")"
+        rateLabel.text = "평점: \(movieModel.userRating ?? "")"
     }
 }

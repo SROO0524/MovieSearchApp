@@ -18,6 +18,7 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
     let searchLabel = UILabel()
     let searchBar = UISearchBar()
     let tableView = MovieListTableView()
+    let searchViewModel = SearchViewModel()
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -28,9 +29,7 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
         setTableView()
     }
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
+
     
     // MARK: Navigation 세팅
     func setNav() {
@@ -83,6 +82,30 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
         }
     }
     
+    // 텍스트가 변경되기 시작하면 테이블 리로드
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBar.becomeFirstResponder()
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        guard let searchText = searchBar.text else { return }
+        searchViewModel.getSearchList(query: searchText)
+        setBinding()
+    }
+
+    func setBinding() {
+        searchViewModel.apiResponse.bind(onNext: { [weak self]  in
+            // 데이터를 가져온 후에 테이블 리로드
+            self?.tableView.reloadData()
+        }).disposed(by: searchViewModel.disposeBag)
+    }
+    
     
     //MARK: TableView Set
     func setTableView() {
@@ -101,20 +124,20 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
 //MARK: Extension
 extension SearchMainViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        print("검색결과 갯수", searchViewModel.getSearchListCount())
+        return searchViewModel.getSearchListCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let listCell = tableView.dequeueReusableCell(withIdentifier: "MovieListTableViewCell") else {
-            return UITableViewCell()
-        }
-        
+        let listCell = tableView.dequeueReusableCell(withIdentifier: "MovieListTableViewCell") as! MovieListTableViewCell
+        listCell.bindingCellData(movieModel: searchViewModel.getDetailsData(index: indexPath.row))
         return listCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieDetailVC = MovieDetailViewController()
         navigationController?.pushViewController(movieDetailVC, animated: true)
+        // 즐겨찾기한 리스트 저장하기
     }
 }
 

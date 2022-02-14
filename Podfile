@@ -11,6 +11,8 @@ target 'MovieSearch' do
  pod 'SwiftyJSON'
  pod 'SnapKit'
  pod 'RealmSwift'
+ pod 'RxSwift'
+ pod 'RxCocoa'
 
   target 'MovieSearchTests' do
     inherit! :search_paths

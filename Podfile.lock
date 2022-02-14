@@ -6,6 +6,12 @@ PODS:
   - Realm/Headers (10.20.1)
   - RealmSwift (10.20.1):
     - Realm (= 10.20.1)
+  - RxCocoa (6.2.0):
+    - RxRelay (= 6.2.0)
+    - RxSwift (= 6.2.0)
+  - RxRelay (6.2.0):
+    - RxSwift (= 6.2.0)
+  - RxSwift (6.2.0)
   - SnapKit (5.0.1)
   - SwiftyJSON (5.0.1)
 
@@ -13,6 +19,8 @@ DEPENDENCIES:
   - Alamofire
   - Kingfisher
   - RealmSwift
+  - RxCocoa
+  - RxSwift
   - SnapKit
   - SwiftyJSON
 
@@ -22,6 +30,9 @@ SPEC REPOS:
     - Kingfisher
     - Realm
     - RealmSwift
+    - RxCocoa
+    - RxRelay
+    - RxSwift
     - SnapKit
     - SwiftyJSON
 
@@ -30,9 +41,12 @@ SPEC CHECKSUMS:
   Kingfisher: f738f9c4a3415823b8e2985d10aa2d6a9f37bc4d
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
+  RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
+  RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
+  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 124248def0852184be73e61dc95c8b001cb1ad35
+PODFILE CHECKSUM: 51dcc4ed7d3b3e217bf40932e887166eea6d5759
 
 COCOAPODS: 1.11.2
