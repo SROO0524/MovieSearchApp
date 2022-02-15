@@ -9,13 +9,15 @@ import Foundation
 import RealmSwift
 
 class MovieRealmModel: Object {
+    @objc dynamic var id = ""
     @objc dynamic var title  = ""
     @objc dynamic var director = ""
     @objc dynamic var actor = ""
+    @objc dynamic var userRating = ""
+    @objc dynamic var image = ""
     @objc dynamic var link = ""
-    @objc dynamic var favorite = false
     
     override static func primaryKey() -> String? {
-        return "title"
+        return "id"
     }
 }

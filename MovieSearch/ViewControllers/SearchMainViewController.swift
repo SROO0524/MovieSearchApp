@@ -19,6 +19,9 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
     let searchBar = UISearchBar()
     let tableView = MovieListTableView()
     let searchViewModel = SearchViewModel()
+    let favoriteViewModel = FavoriteViewModel.instance
+
+    var movie: MovieRealmModel?
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -27,8 +30,12 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
         setNav()
         setSearchBar()
         setTableView()
+        setBinding()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
 
     
     // MARK: Navigation 세팅
@@ -63,7 +70,6 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
     }
     
     @objc func favoriteBTTap() {
-        print("즐겨찾기 버튼 클릭")
         let favoriteListVC = FavoriteListViewController()
         navigationController?.pushViewController(favoriteListVC, animated: true)
     }
@@ -84,19 +90,18 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
     
     // 텍스트가 변경되기 시작하면 테이블 리로드
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.becomeFirstResponder()
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let searchText = searchBar.text else { return }
         searchViewModel.getSearchList(query: searchText)
-        setBinding()
     }
 
     func setBinding() {
@@ -124,20 +129,34 @@ class SearchMainViewController: UIViewController,UISearchBarDelegate {
 //MARK: Extension
 extension SearchMainViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("검색결과 갯수", searchViewModel.getSearchListCount())
         return searchViewModel.getSearchListCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let listCell = tableView.dequeueReusableCell(withIdentifier: "MovieListTableViewCell") as! MovieListTableViewCell
-        listCell.bindingCellData(movieModel: searchViewModel.getDetailsData(index: indexPath.row))
+        let movieModel = searchViewModel.getDetailsData(index: indexPath.row)
+        
+        listCell.bindingCellData(movieModel: movieModel, isFavorite: self.favoriteViewModel.isFavoriteMovie(movieFromHttp: movieModel))
         return listCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieDetailVC = MovieDetailViewController()
+        let cell = tableView.cellForRow(at: indexPath) as! MovieListTableViewCell
+        
+        print("🌴 클릭 영화 데이터", cell.directorLabel.text ?? "")
+    
+        let movieModel = searchViewModel.getDetailsData(index: indexPath.row)
+        let detailModel = MovieDetailModel(
+            title : movieModel.title ?? "",
+            director: movieModel.director ?? "",
+            actor: movieModel.actor ?? "",
+            userRating: movieModel.userRating ?? "",
+            image: movieModel.image ?? "",
+            link: movieModel.link ?? "",
+            isFavorite: self.favoriteViewModel.isFavoriteMovie(movieFromHttp: movieModel))
+        movieDetailVC.movie = detailModel
         navigationController?.pushViewController(movieDetailVC, animated: true)
-        // 즐겨찾기한 리스트 저장하기
     }
 }
 

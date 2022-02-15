@@ -19,7 +19,6 @@ class MovieWebView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        loadWeb()
     }
     
     required init?(coder: NSCoder) {
@@ -35,8 +34,9 @@ class MovieWebView: UIView {
     }
     
     //MARK: LoadView
-    func loadWeb() {
-        let request = URLRequest(url: URL(string: "https://movie.naver.com/movie/bi/mi/basic.naver?code=95541")!)
+    func loadWeb(link: String?) {
+        guard let webLink = link else { return }
+        let request = URLRequest(url: URL(string: webLink)!)
         webView.load(request)
     }
 }

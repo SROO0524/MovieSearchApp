@@ -8,6 +8,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import RealmSwift
 
 /*
  영화 검색 ViewModel
@@ -28,9 +29,9 @@ class SearchViewModel {
             if isSuccess {
                 self.searchList = []
                 self.searchModel = model as? MovieSearchModel
-                print("검색 모델",self.searchModel)
                 self.searchList.append(contentsOf: self.searchModel?.items ?? [])
                 self.totalElements = self.searchModel?.total
+                print("🙏🏻 api 호출 완료 🙏🏻")
                 self.apiResponse.onNext(())
             }
         }

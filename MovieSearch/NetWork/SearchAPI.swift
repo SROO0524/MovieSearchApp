@@ -17,9 +17,9 @@ class SearchAPI: NetWorkModel {
         AF.request(baseURL, method: .get, parameters:param, encoding: URLEncoding.default, headers: headers).responseString { response in
             switch response.result {
             case .success:
-                print("getResult : ",String(decoding: response.data!, as: UTF8.self))
+//                print("getResult : ",String(decoding: response.data!, as: UTF8.self))
                 guard let decodeData = try? JSONDecoder().decode(MovieSearchModel.self, from: response.data!) else { return }
-                print("decodeData: \(String(describing: decodeData))")
+//                print("decodeData: \(String(describing: decodeData))")
                 completion(true,decodeData)
                 print("성공")
             case .failure:
