@@ -74,6 +74,7 @@ extension FavoriteListViewController: UITableViewDelegate,UITableViewDataSource 
         let url = URL(string: movieData.image)
         listCell.movieImage.kf.setImage(with: url)
         listCell.favoriteButton.imageView?.tintColor = .systemYellow
+        listCell.favoriteButton.isEnabled = false
     
         return listCell
     }
